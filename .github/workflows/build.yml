@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      - master
-  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -16,8 +14,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Download repository
         uses: actions/checkout@v4
+
+      - name: Verify mod sources
+        run: |
+          test -f src/main/java/dev/raidmine/rmtools/RMToolsClient.java
+          test -f src/main/resources/fabric.mod.json
+          echo "Source files found:"
+          find src/main -type f | sort
 
       - name: Set up Java 21
         uses: actions/setup-java@v4
@@ -30,14 +35,17 @@ jobs:
         with:
           gradle-version: "8.14.3"
 
-      - name: Build mod
-        run: gradle build --refresh-dependencies --stacktrace
+      - name: Build Fabric mod
+        run: gradle clean remapJar --refresh-dependencies --stacktrace
 
-      - name: Upload compiled JAR
+      - name: Inspect result
+        run: |
+          ls -lh build/libs
+          jar tf build/libs/rm-tools-1.0.0.jar | head -100
+
+      - name: Upload playable mod
         uses: actions/upload-artifact@v4
         with:
-          name: RMTools-1.21.11
-          path: |
-            build/libs/*.jar
-            !build/libs/*-sources.jar
+          name: RMTools-test
+          path: build/libs/rm-tools-1.0.0.jar
           if-no-files-found: error
