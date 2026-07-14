@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "rmtools",
+  "version": "${version}",
+  "name": "RM Tools",
+  "description": "RaidMine staff punishment and chat workflow tools.",
+  "authors": ["NAU1ZER", "xzktoV2_1"],
+  "environment": "client",
+  "entrypoints": { "client": ["dev.raidmine.rmtools.RMToolsClient"] },
+  "mixins": ["rmtools.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.17.0",
+    "minecraft": "1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}

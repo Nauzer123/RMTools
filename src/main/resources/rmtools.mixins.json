@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "dev.raidmine.rmtools.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": ["ChatHudMixin", "GameMenuScreenMixin"],
+  "injectors": { "defaultRequire": 1 }
+}
